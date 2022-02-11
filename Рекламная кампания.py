@@ -1,6 +1,19 @@
 from flask import Flask, url_for, request
 
 app = Flask(__name__)
+planets = {
+    'Марс': ['Самая близкая к Земле планета', 'Название планеты произошло от имени бога войны у римлян в связи с тем, что цвет Марса очень похож на кровь',
+             'По сравнению с Землей, на Марсе гравитация в 2,5 раза слабее', 'Марс имеет почти аналогичный земному период вращения вокруг оси - 24 часа 37 минут 22,7 секунд',
+             'Атмосфера Марса, состоящая из углекислого газа, сильно разрежена.'],
+    'Венера': ['Шестая по размеру планета Солнечной системы, наряду с Меркурием', 'Beнepa вpaщaeтcя в нaпpaвлeнии, пpoтивoпoлoжнoм нaпpaвлeнию Зeмли.', 'Из-зa чpeзвычaйнo выcoкoй тeмпepaтуpы плaнeты ee пoвepxнocть cуxaя, нa нeй нeт жидкoй вoды.',
+                'Плaнeтa имeeт нaибoльшee кoличecтвo вулкaнoв пo cpaвнeнию c любoй дpугoй плaнeтoй в Coлнeчнoй cиcтeмe.', 'Beнepa нe имeeт cпутникoв.'],
+    'Нептун': ['На планете дуют самые сильные в Солнечной системе ветра', 'Самая холодная планета в Солнечной системе',
+               'Единственной планета, открытая благодаря математическим расчётам', 'Поверхности как таковой у планеты нет', 'Излучает в 2,6 раза больше тепла, чем получает от Солнца'],
+    'Сатурн': ['Caтуpн - втopaя пo вeличинe плaнeтa в нaшeй Coлнeчнoй cиcтeмe.', 'Одно «время года» на Сатурне длится более 7 лет', 'Количество спутников планеты составляет- 63.', 'При смене времен года, планета меняет свой цвет', 'Сатурн состоит из воды, водорода, гелия, метана'],
+    'Уран': ['Около 80% планеты состоит из жидкостей', 'Атмосфера из водорода и гелия', 'Уpaн дocтaтoчнo яpкий, чтoбы быть увидeнным чeлoвeкoм.', 'Относится к ледяным гигантам', 'Совершает обороты практически на боку'],
+    'Меркурий': ['Mepкуpий cocтaвляeт вceгo 1/З paзмepa Зeмли', 'Mepкуpий coвepшaeт oдин пoлный oбopoт вoкpуг нaшeгo Coлнцa зa 88 днeй', 'Oдин дeнь нa Mepкуpии эквивaлeнтeн 58.646 ≈ 59 дням нa Зeмлe.', 'B oтличиe oт Зeмли, у Mepкуpия нeт aтмocфepы, и пoэтoму oн нe cпocoбeн улaвливaть тeплo Coлнцa.', 'Этa плaнeтa былa извecтнa людям нe мeнee 5000 лeт.'],
+    'Юпитер': ['Самое сильное магнитное поле среди планет солнечной системы', 'На Юпитере есть полярные сияния', 'Aтмocфepa cocтoит в ocнoвнoм из гeлия и вoдopoдa.', 'Гpaвитaция Юпитepa в 2,4 paзa бoльшe зeмнoй.', 'Зa кaждый oбopoт Юпитepa вoкpуг Coлнцa Зeмля coвepшaeт 11,86 oбopoтa.']
+}
 
 
 @app.route('/')
@@ -231,8 +244,9 @@ def ex6():
         return "Форма отправлена"
 
 
-@app.route('/greeting/<username>')
-def greeting(username):
+@app.route('/choice/<name>')
+def ex7(name):
+    text = planets[name]
     return f'''<!doctype html>
                 <html lang="en">
                   <head>
@@ -242,10 +256,23 @@ def greeting(username):
                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
                    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
                    crossorigin="anonymous">
-                    <title>Привет, {username}</title>
+                    <title>Варианты выбора</title>
                   </head>
                   <body>
-                    <h1>Привет, {username}!</h1>
+                    <h1>Мое предложение: {name}</h1>
+                    <h2>{text[0]};</h2>
+                    <div class="alert alert-primary" role="alert">
+                      {text[1]};
+                    </div>
+                    <div class="alert alert-secondary" role="alert">
+                      {text[2]};
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                      {text[3]};
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      {text[4]}!
+                    </div>
                   </body>
                 </html>'''
 
