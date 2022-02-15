@@ -2,17 +2,33 @@ from flask import Flask, url_for, request
 
 app = Flask(__name__)
 planets = {
-    'Марс': ['Самая близкая к Земле планета', 'Название планеты произошло от имени бога войны у римлян в связи с тем, что цвет Марса очень похож на кровь',
-             'По сравнению с Землей, на Марсе гравитация в 2,5 раза слабее', 'Марс имеет почти аналогичный земному период вращения вокруг оси - 24 часа 37 минут 22,7 секунд',
+    'Марс': ['Самая близкая к Земле планета',
+             'Название планеты произошло от имени бога войны у римлян в связи с тем, что цвет Марса очень похож на кровь',
+             'По сравнению с Землей, на Марсе гравитация в 2,5 раза слабее',
+             'Марс имеет почти аналогичный земному период вращения вокруг оси - 24 часа 37 минут 22,7 секунд',
              'Атмосфера Марса, состоящая из углекислого газа, сильно разрежена.'],
-    'Венера': ['Шестая по размеру планета Солнечной системы, наряду с Меркурием', 'Beнepa вpaщaeтcя в нaпpaвлeнии, пpoтивoпoлoжнoм нaпpaвлeнию Зeмли.', 'Из-зa чpeзвычaйнo выcoкoй тeмпepaтуpы плaнeты ee пoвepxнocть cуxaя, нa нeй нeт жидкoй вoды.',
-                'Плaнeтa имeeт нaибoльшee кoличecтвo вулкaнoв пo cpaвнeнию c любoй дpугoй плaнeтoй в Coлнeчнoй cиcтeмe.', 'Beнepa нe имeeт cпутникoв.'],
+    'Венера': ['Шестая по размеру планета Солнечной системы, наряду с Меркурием',
+               'Beнepa вpaщaeтcя в нaпpaвлeнии, пpoтивoпoлoжнoм нaпpaвлeнию Зeмли.',
+               'Из-зa чpeзвычaйнo выcoкoй тeмпepaтуpы плaнeты ee пoвepxнocть cуxaя, нa нeй нeт жидкoй вoды.',
+               'Плaнeтa имeeт нaибoльшee кoличecтвo вулкaнoв пo cpaвнeнию c любoй дpугoй плaнeтoй в Coлнeчнoй cиcтeмe.',
+               'Beнepa нe имeeт cпутникoв.'],
     'Нептун': ['На планете дуют самые сильные в Солнечной системе ветра', 'Самая холодная планета в Солнечной системе',
-               'Единственной планета, открытая благодаря математическим расчётам', 'Поверхности как таковой у планеты нет', 'Излучает в 2,6 раза больше тепла, чем получает от Солнца'],
-    'Сатурн': ['Caтуpн - втopaя пo вeличинe плaнeтa в нaшeй Coлнeчнoй cиcтeмe.', 'Одно «время года» на Сатурне длится более 7 лет', 'Количество спутников планеты составляет- 63.', 'При смене времен года, планета меняет свой цвет', 'Сатурн состоит из воды, водорода, гелия, метана'],
-    'Уран': ['Около 80% планеты состоит из жидкостей', 'Атмосфера из водорода и гелия', 'Уpaн дocтaтoчнo яpкий, чтoбы быть увидeнным чeлoвeкoм.', 'Относится к ледяным гигантам', 'Совершает обороты практически на боку'],
-    'Меркурий': ['Mepкуpий cocтaвляeт вceгo 1/З paзмepa Зeмли', 'Mepкуpий coвepшaeт oдин пoлный oбopoт вoкpуг нaшeгo Coлнцa зa 88 днeй', 'Oдин дeнь нa Mepкуpии эквивaлeнтeн 58.646 ≈ 59 дням нa Зeмлe.', 'B oтличиe oт Зeмли, у Mepкуpия нeт aтмocфepы, и пoэтoму oн нe cпocoбeн улaвливaть тeплo Coлнцa.', 'Этa плaнeтa былa извecтнa людям нe мeнee 5000 лeт.'],
-    'Юпитер': ['Самое сильное магнитное поле среди планет солнечной системы', 'На Юпитере есть полярные сияния', 'Aтмocфepa cocтoит в ocнoвнoм из гeлия и вoдopoдa.', 'Гpaвитaция Юпитepa в 2,4 paзa бoльшe зeмнoй.', 'Зa кaждый oбopoт Юпитepa вoкpуг Coлнцa Зeмля coвepшaeт 11,86 oбopoтa.']
+               'Единственной планета, открытая благодаря математическим расчётам',
+               'Поверхности как таковой у планеты нет', 'Излучает в 2,6 раза больше тепла, чем получает от Солнца'],
+    'Сатурн': ['Caтуpн - втopaя пo вeличинe плaнeтa в нaшeй Coлнeчнoй cиcтeмe.',
+               'Одно «время года» на Сатурне длится более 7 лет', 'Количество спутников планеты составляет- 63.',
+               'При смене времен года, планета меняет свой цвет', 'Сатурн состоит из воды, водорода, гелия, метана'],
+    'Уран': ['Около 80% планеты состоит из жидкостей', 'Атмосфера из водорода и гелия',
+             'Уpaн дocтaтoчнo яpкий, чтoбы быть увидeнным чeлoвeкoм.', 'Относится к ледяным гигантам',
+             'Совершает обороты практически на боку'],
+    'Меркурий': ['Mepкуpий cocтaвляeт вceгo 1/З paзмepa Зeмли',
+                 'Mepкуpий coвepшaeт oдин пoлный oбopoт вoкpуг нaшeгo Coлнцa зa 88 днeй',
+                 'Oдин дeнь нa Mepкуpии эквивaлeнтeн 58.646 ≈ 59 дням нa Зeмлe.',
+                 'B oтличиe oт Зeмли, у Mepкуpия нeт aтмocфepы, и пoэтoму oн нe cпocoбeн улaвливaть тeплo Coлнцa.',
+                 'Этa плaнeтa былa извecтнa людям нe мeнee 5000 лeт.'],
+    'Юпитер': ['Самое сильное магнитное поле среди планет солнечной системы', 'На Юпитере есть полярные сияния',
+               'Aтмocфepa cocтoит в ocнoвнoм из гeлия и вoдopoдa.', 'Гpaвитaция Юпитepa в 2,4 paзa бoльшe зeмнoй.',
+               'Зa кaждый oбopoт Юпитepa вoкpуг Coлнцa Зeмля coвepшaeт 11,86 oбopoтa.']
 }
 
 
@@ -276,6 +292,7 @@ def ex7(name):
                   </body>
                 </html>'''
 
+
 @app.route('/results/<nickname>/<int:level>/<float:rating>')
 def ex8(nickname, level, rating):
     return f'''<!doctype html>
@@ -303,6 +320,120 @@ def ex8(nickname, level, rating):
                     </div>
                   </body>
                 </html>'''
+
+
+@app.route('/load_photo', methods=['POST', 'GET'])
+def ex9():
+    if request.method == 'GET':
+        return f'''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                            <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                            crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
+                            <title>Отбор астронавтов</title>
+                          </head>
+                          <body>
+                            <h1 align="center" ">Загрузка фотографии</h1>
+                            <h2 align="center" ">для участия в миссии</h2>
+                            <div>
+                                <form class="login_form" method="post">
+                                    <div class="form-group">
+                                        <label for="photo">Приложите фотографию</label>
+                                        <input type="file" class="form-control-file" id="photo" name="file">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </form>
+                            </div>
+                          </body>
+                        </html>'''
+    elif request.method == 'POST':
+        print(request.form['file'])
+        return "Фотография отправлена"
+
+
+@app.route('/sample_file_upload', methods=['POST', 'GET'])
+def sample_file_upload():
+    if request.method == 'GET':
+        return f'''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                             <link rel="stylesheet"
+                             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                             crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
+                            <title>Пример загрузки файла</title>
+                          </head>
+                          <body>
+                            <h1>Загрузим файл</h1>
+                            <img src="{url_for('static', filename='img/mars.png')}" 
+                                alt="здесь должна была быть картинка, но не нашлась">
+                            <form method="post" enctype="multipart/form-data">
+                               <div class="form-group">
+                                    <label for="photo">Выберите файл</label>
+                                    <input type="file" class="form-control-file" id="photo" name="file">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Отправить</button>
+                            </form>
+                          </body>
+                        </html>'''
+    elif request.method == 'POST':
+        f = request.files['file']
+        return "Форма отправлена"
+
+
+@app.route('/carousel')
+def ex_last():
+    return f'''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                             <link rel="stylesheet"
+                             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                             crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
+                            <title>Пейзажы Новой Зеландии</title>
+                          </head>
+                          <body>
+                            <h1 align="center" ">Пейзажы Новой Зеландии</h1>
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                              <div class="carousel-inner">
+                                <div align="center" class="carousel-item active" data-bs-interval="1">
+                                  <img src="{url_for('static', filename='img/pic1.jpg')}" class="d-block w-50" alt="здесь должна была быть картинка, но не нашлась">
+                                </div>
+                                <div align="center" class="carousel-item" data-bs-interval="1">
+                                  <img src="{url_for('static', filename='img/pic2.jpg')}" class="d-block w-50" alt="здесь должна была быть картинка, но не нашлась">
+                                </div>
+                                <div align="center" class="carousel-item" data-bs-interval="1">
+                                  <img src="{url_for('static', filename='img/pic3.jpg')}" class="d-block w-50" alt="здесь должна была быть картинка, но не нашлась">
+                                </div>
+                                <div align="center" class="carousel-item" data-bs-interval="1">
+                                  <img src="{url_for('static', filename='img/pic4.jpg')}" class="d-block w-50" alt="здесь должна была быть картинка, но не нашлась">
+                                </div>
+                                <div align="center" class="carousel-item" data-bs-interval="1">
+                                  <img src="{url_for('static', filename='img/pic5.jpg')}" class="d-block w-50" alt="здесь должна была быть картинка, но не нашлась">
+                                </div>
+                              </div>
+                              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                              </button>
+                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                              </button>
+                            </div>
+                          </body>
+                        </html>'''
 
 
 if __name__ == '__main__':
