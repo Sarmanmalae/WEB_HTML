@@ -46,6 +46,19 @@ def index():
                 </html>"""
 
 
+@app.route('/test')
+def test():
+    return f"""<!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Пример установки изображения в качестве фона</title>
+                    <link rel="stylesheet" href="/static/css/style.css" type="text/css"/>
+                </head>
+                    <body >
+                    </body>
+                </html>"""
+
+
 @app.route('/index')
 def mars():
     return f"""<!doctype html>
@@ -323,7 +336,7 @@ def ex8(nickname, level, rating):
 
 
 @app.route('/load_photo', methods=['POST', 'GET'])
-def ex9():
+def sample_file_upload():
     if request.method == 'GET':
         return f'''<!doctype html>
                         <html lang="en">
@@ -341,52 +354,48 @@ def ex9():
                             <h1 align="center" ">Загрузка фотографии</h1>
                             <h2 align="center" ">для участия в миссии</h2>
                             <div>
-                                <form class="login_form" method="post">
-                                    <div class="form-group">
-                                        <label for="photo">Приложите фотографию</label>
+                                <form class="login_form" method="post" enctype="multipart/form-data">
+                                   <div class="form-group">
+                                        <label for="photo">Выберите файл</label>
                                         <input type="file" class="form-control-file" id="photo" name="file">
                                     </div>
+                                    <br>
+                                    <img src="{url_for('static', filename='img/robot.jpg')}" 
+                        alt="здесь должна была быть картинка, но не нашлась">
+                                    <br>
+                                    <br>
                                     <button type="submit" class="btn btn-primary">Отправить</button>
                                 </form>
                             </div>
                           </body>
                         </html>'''
     elif request.method == 'POST':
-        print(request.form['file'])
-        return "Фотография отправлена"
-
-
-@app.route('/sample_file_upload', methods=['POST', 'GET'])
-def sample_file_upload():
-    if request.method == 'GET':
+        t = request.files['file']
+        with open('static/img/robot_new.jpg', 'wb') as f:
+            f.write(t.read())
         return f'''<!doctype html>
                         <html lang="en">
                           <head>
                             <meta charset="utf-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                             <link rel="stylesheet"
-                             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-                             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-                             crossorigin="anonymous">
+                            <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                            crossorigin="anonymous">
                             <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
-                            <title>Пример загрузки файла</title>
+                            <title>Отбор астронавтов</title>
                           </head>
                           <body>
-                            <h1>Загрузим файл</h1>
-                            <img src="{url_for('static', filename='img/mars.png')}" 
-                                alt="здесь должна была быть картинка, но не нашлась">
-                            <form method="post" enctype="multipart/form-data">
-                               <div class="form-group">
-                                    <label for="photo">Выберите файл</label>
-                                    <input type="file" class="form-control-file" id="photo" name="file">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Отправить</button>
-                            </form>
+                            <h1 align="center" ">Загрузка фотографии</h1>
+                            <h2 align="center" ">для участия в миссии</h2>
+                            <div>
+                                <form class="login_form" method="post" enctype="multipart/form-data">
+                                    <img  width="430" height="609" src="{url_for('static', filename='img/robot_new.jpg')}" 
+                        alt="здесь должна была быть картинка, но не нашлась">
+                                </form>
+                            </div>
                           </body>
                         </html>'''
-    elif request.method == 'POST':
-        f = request.files['file']
-        return "Форма отправлена"
 
 
 @app.route('/carousel')
